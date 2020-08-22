@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!--Required meta tags-->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>My Page Title</title>
+        <!--Bootstrap CSS-->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link rel="stylesheet" href="./resources/css/style.css">
+    </head>
+    <body>
+        <main>
+            <header >
+                <div class="bg-light justify-content-center container d-flex align-items-center">
+                    <div class="logo">
+                        <img src="./resources/img/logo.png" width="60px" class="img-fluid" alt="">
+                    </div>
+                    <span class="font-weight-bold">
+                        COVID-19 <br>LIVE-DATA
+                    </span>
+                </div>
+            </header>
+
+            <div class="container mt-4 main">
+                <div class="row">
+                    <div class="col-md-12 d-flex justify-content-center align-items-center">
+                        <form action="" class="w-50">
+                            <input type="text" class="form-control" id="countryName" placeholder="search contry">
+                        </form>
+                        <button class="btn btn-success" id="checkBtn">Check</button>
+                    </div>
+                    
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-md-6 text-center">
+                        <div class="population">
+                            <h3 class="text-info"><img src="" width="70px" id="img" alt=""> : <span id="country"></span></h3>
+                            <h4 class="text-warning">one Case Per People: <span id="casePer"></span> </h4>
+                            <h5 class="text-danger">one Deaths Per People: <span id="deathPer"></span></h5>
+                        </div>
+                    </div>
+                    <div class="col-md-6 text-center">
+                        <div class="total-case">
+                            <h3 class="text-warning">Total Case</h3>
+                            <h4 class="text-warning" id="cases">0</h4>
+                            <h5 class="text-secondary" id="newCase">+0</h5>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-6 text-center">
+                        <div class="recover">
+                            <h3 class="text-success">Recover</h3>
+                            <h4 class="text-success" id="recover">0</h4>
+                            <h5 class="text-info" id="newrecover">+0</h5>
+                        </div>
+                    </div>
+                    <div class="col-md-6 text-center">
+                        <div class="total-daths">
+                            <h3 class="text-danger">Total Deaths</h3>
+                            <h4 class="text-danger" id="deaths">0</h4>
+                            <h5 class="text-warning" id="newdeaths">+0</h5>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>develop by -<a href="https://www.facebook.com/mustafiz.munna.58">mustafiz munna</a></p>
+        </footer>
+
+        <!--Optional JavaScript-->
+        <!--jQuery first, then Popper.js, then Bootstrap JS-->
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+        <script language="JavaScript" src="http://www.geoplugin.net/javascript.gp" type="text/javascript"></script>
+        <script>
+            
+            const instant = geoplugin_countryName();
+            const img = document.getElementById('img');
+            const country = document.getElementById('country');
+            const casePer =document.getElementById('casePer');
+            const deathPer =document.getElementById('deathPer');
+            const cases = document.getElementById('cases');
+            const newCase = document.getElementById('newCase');
+            const recover = document.getElementById('recover');
+            const newreCover = document.getElementById('newrecover');
+            const deaths = document.getElementById('deaths');
+            const newdeaths = document.getElementById('newdeaths');
+
+            
+
+            function result(city){
+                    fetch(`https://corona.lmao.ninja/v2/countries/${city}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        console.log(data);
+                        img.src = data.countryInfo.flag ;
+                        country.innerText = data.country;
+                        casePer.innerText = data.oneCasePerPeople;
+                        deathPer.innerText = data.oneDeathPerPeople;
+                        cases.innerText = data.cases;
+                        newCase.innerText = '+'+data.todayCases;
+                        recover.innerText = data.recovered;
+                        newreCover.innerText ='+'+data.todayRecovered;
+                        deaths.innerText = data.deaths;
+                        newdeaths.innerText = '+'+data.todayDeaths;
+                    })
+                }
+            result(instant);
+            
+
+            document.getElementById('checkBtn').addEventListener('click' , function(){
+                const countryName = document.getElementById('countryName').value ;
+                
+                
+                result(countryName);
+            })
+
+
+        </script>
+    </body>
+</html>
